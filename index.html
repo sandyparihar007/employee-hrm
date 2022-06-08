@@ -28,7 +28,7 @@
 			position: relative;
 			height: 680px;
 			width: 100%;
-    		max-width: 600px;
+			max-width: 600px;
 			box-shadow: 0px 0px 24px #5C5696;
 		}
 
@@ -36,7 +36,7 @@
 			z-index: 1;
 			position: relative;
 			height: 100%;
-			padding-top: 70px;
+			padding-top: 20px;
 		}
 
 		.screen__background {
@@ -93,7 +93,7 @@
 
 		.login {
 			padding: 30px;
-    		margin-left: 50px;
+			margin-left: 50px;
 		}
 
 		.login__field {
@@ -200,11 +200,44 @@
 		input {
 			font-size: 18px;
 		}
-		.logo{
+
+		.logo {
 			width: 100%;
 			max-width: 300px;
 			display: block;
 			margin: 0 auto;
+		}
+
+		.alert {
+			width: 600px;
+			height: 70px;
+			background-color: green;
+			padding: 15px;
+			text-align: center;
+			line-height: 50px;
+			border: 1px solid;
+			border-radius: 5px;
+		}
+
+		h1 {
+			font-size: 25px;
+			font-family: cursive;
+			color: #fff;
+			animation: blink 0.8s linear infinite;
+		}
+
+		@keyframes blink {
+			0% {
+				opacity: 0;
+			}
+
+			50% {
+				opacity: .5;
+			}
+
+			100% {
+				opacity: 1;
+			}
 		}
 	</style>
 </head>
@@ -213,11 +246,14 @@
 	<div class="container">
 		<div class="screen">
 			<div class="screen__content">
-				<img src="./Personal HRM.png" class="logo">
+				<h1 id="alert" class="alert"></h1>
+				
+
+
 				<form class="login" method="post">
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
-						<label>Login Time</label><br/>
+						<label>Login Time</label><br />
 						<input type="time" class="login__input" id="officeIn" placeholder="Login Time">
 					</div>
 					<div class="login__field">
@@ -236,7 +272,7 @@
 						<input type="time" class="login__input" id="fixedhour" placeholder="Fixed Office Hours" readonly
 							value="08:30">
 					</div> -->
-					<input type="button" value="Calculate Exit Time" class="button login__submit" onclick="timeCalc()">
+					<input type="button" value="Calculate Time" class="button login__submit" onclick="timeCalc()">
 					<!-- <button class="button login__submit" onclick="Calculate()">
                 <span class="button__text">Calculate Exit Time</span>
                 <i class="button__icon fas fa-chevron-right"></i>
@@ -252,45 +288,44 @@
         </div> -->
 			</div>
 			<div class="screen__background">
-        <span class="screen__background__shape screen__background__shape4"></span>
-        <span class="screen__background__shape screen__background__shape3"></span>		
-        <span class="screen__background__shape screen__background__shape2"></span>
-        <span class="screen__background__shape screen__background__shape1"></span>
-    </div>		
+				<span class="screen__background__shape screen__background__shape4"></span>
+				<span class="screen__background__shape screen__background__shape3"></span>
+				<span class="screen__background__shape screen__background__shape2"></span>
+				<span class="screen__background__shape screen__background__shape1"></span>
+			</div>
 		</div>
 	</div>
 
 
+
 	<script>
-        function timeCalc(){
-            var officeIn, lunchOut, lunchIn, fixedTime, finalExitHour, forAmPm;
-            officeIn = document.getElementById('officeIn').value.split(':');
+		function timeCalc() {
+			var officeIn, lunchOut, lunchIn, fixedTime, finalExitHour, forAmPm;
+			officeIn = document.getElementById('officeIn').value.split(':');
 
-            lunchOut = document.getElementById('lunchOut').value.split(':');
-            lunchIn = document.getElementById('lunchIn').value.split(':');
-            fixedTime = [08, 30];
-            
-            // Calculation Lunch Duration
-            lunchTotal = [parseInt(lunchIn[0]) - parseInt(lunchOut[0]), parseInt(lunchIn[1]) - parseInt(lunchOut[1])];
+			lunchOut = document.getElementById('lunchOut').value.split(':');
+			lunchIn = document.getElementById('lunchIn').value.split(':');
+			fixedTime = [08, 30];
 
-            finalExitHour = [parseInt(officeIn[0]) + lunchTotal[0] + fixedTime[0], parseInt(officeIn[1]) + lunchTotal[1] + fixedTime[1]];
-            if(finalExitHour[1] > 60){
-                finalExitHour[0]++
-                finalExitHour[1] -= 60
-            }
-            if(finalExitHour[0] > 12){
-                finalExitHour[0] -= 12;
-                forAmPm = "PM";
-            }else{
-                forAmPm = "AM";
-            }
-            var final = finalExitHour.toString().replace(',',':') + forAmPm;
-			alert(final);
+			// Calculation Lunch Duration
+			lunchTotal = [parseInt(lunchIn[0]) - parseInt(lunchOut[0]), parseInt(lunchIn[1]) - parseInt(lunchOut[1])];
 
-			//document.write.innerText.getElementById('exit') = final;
-			document.getElementById("alert").value = final;
-        }
-    </script>
+			finalExitHour = [parseInt(officeIn[0]) + lunchTotal[0] + fixedTime[0], parseInt(officeIn[1]) + lunchTotal[1] + fixedTime[1]];
+			if (finalExitHour[1] > 60) {
+				finalExitHour[0]++
+				finalExitHour[1] -= 60
+			}
+			if (finalExitHour[0] > 12) {
+				finalExitHour[0] -= 12;
+				forAmPm = "PM";
+			} else {
+				forAmPm = "AM";
+			}
+			var final = finalExitHour.toString().replace(',', ':') + forAmPm;
+
+			document.getElementById("alert").innerHTML = "Your Exit Time is: " + final;
+		}
+	</script>
 </body>
 
 </html>
