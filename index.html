@@ -13,6 +13,7 @@
 
 		body {
 			background: linear-gradient(90deg, #C7C5F4, #776BCC);
+			overflow: hidden;
 		}
 
 		.container {
@@ -35,6 +36,7 @@
 			z-index: 1;
 			position: relative;
 			height: 100%;
+			padding-top: 70px;
 		}
 
 		.screen__background {
@@ -91,6 +93,7 @@
 
 		.login {
 			padding: 30px;
+    		margin-left: 50px;
 		}
 
 		.login__field {
@@ -128,17 +131,19 @@
 			margin-top: 30px;
 			padding: 16px 20px;
 			border-radius: 26px;
-			border: 1px solid #D4D3E8;
+			border: 1px solid #4C489D;
 			text-transform: uppercase;
 			font-weight: 700;
 			display: flex;
 			align-items: center;
 			width: 100%;
-			color: #4C489D;
-			box-shadow: 0px 2px 2px #5C5696;
+			color: #fff;
+			box-shadow: 2px 2px 20px #fff;
 			cursor: pointer;
 			transition: .2s;
 			display: block;
+			background-color: #4C489D;
+			letter-spacing: 2.5px;
 		}
 
 		.login__submit:active,
@@ -182,7 +187,7 @@
 		}
 
 		label {
-			color: #fff;
+			color: #000;
 			font-weight: 600;
 		}
 
@@ -197,10 +202,9 @@
 		}
 		.logo{
 			width: 100%;
-			max-width: 400px;
+			max-width: 300px;
+			display: block;
 			margin: 0 auto;
-			display: table;
-			padding-top: 20px;
 		}
 	</style>
 </head>
@@ -209,11 +213,11 @@
 	<div class="container">
 		<div class="screen">
 			<div class="screen__content">
-				<img src="https://www.arhamtechnosoft.com/assets/images/main_logo1.svg" class="logo">
+				<img src="./Personal HRM.png" class="logo">
 				<form class="login" method="post">
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
-						<label>Login Time</label>
+						<label>Login Time</label><br/>
 						<input type="time" class="login__input" id="officeIn" placeholder="Login Time">
 					</div>
 					<div class="login__field">
@@ -226,12 +230,12 @@
 						<label>After Lunch In Time</label>
 						<input class="login__input" type="time" id="lunchIn" placeholder="Lunch In Time">
 					</div>
-					<div class="login__field">
+					<!-- <div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
 						<label>Fixed Office Time</label>
 						<input type="time" class="login__input" id="fixedhour" placeholder="Fixed Office Hours" readonly
 							value="08:30">
-					</div>
+					</div> -->
 					<input type="button" value="Calculate Exit Time" class="button login__submit" onclick="timeCalc()">
 					<!-- <button class="button login__submit" onclick="Calculate()">
                 <span class="button__text">Calculate Exit Time</span>
@@ -247,12 +251,12 @@
             </div>
         </div> -->
 			</div>
-			<!-- <div class="screen__background">
+			<div class="screen__background">
         <span class="screen__background__shape screen__background__shape4"></span>
         <span class="screen__background__shape screen__background__shape3"></span>		
         <span class="screen__background__shape screen__background__shape2"></span>
         <span class="screen__background__shape screen__background__shape1"></span>
-    </div>		 -->
+    </div>		
 		</div>
 	</div>
 
@@ -280,7 +284,11 @@
             }else{
                 forAmPm = "AM";
             }
-            alert('Your Final Exit Hour is' + finalExitHour.toString().replace(',',':') + forAmPm);
+            var final = finalExitHour.toString().replace(',',':') + forAmPm;
+			alert(final);
+
+			//document.write.innerText.getElementById('exit') = final;
+			document.getElementById("alert").value = final;
         }
     </script>
 </body>
