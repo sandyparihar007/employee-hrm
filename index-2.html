@@ -210,8 +210,6 @@
 
 		.alert {
 			width: 600px;
-			height: 70px;
-			background-color: green;
 			padding: 15px;
 			text-align: center;
 			line-height: 50px;
@@ -222,10 +220,12 @@
 		h1 {
 			font-size: 25px;
 			font-family: cursive;
-			color: #fff;
+			color: #000;
 			animation: blink 0.8s linear infinite;
 		}
-
+		.exittime{
+			color: #000;
+		}
 		@keyframes blink {
 			0% {
 				opacity: 0;
@@ -246,10 +246,11 @@
 	<div class="container">
 		<div class="screen">
 			<div class="screen__content">
-				<h1 id="alert" class="alert"></h1>
-				
-
-
+				<h1 id="alert" class="alert">
+					Your Exit Hour is : <span id="exittime" class="exittime"></span><br/>
+					<br/>
+					Time Left : <span id="alertSpan">00:00</span>
+				</h1>
 				<form class="login" method="post">
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
@@ -300,6 +301,9 @@
 
 	<script>
 		function timeCalc() {
+			var currentDate = new Date();
+			var currentTime = [parseInt(currentDate.getHours()),parseInt(currentDate.getMinutes())];
+
 			var officeIn, lunchOut, lunchIn, fixedTime, finalExitHour, forAmPm;
 			officeIn = document.getElementById('officeIn').value.split(':');
 
@@ -311,19 +315,64 @@
 			lunchTotal = [parseInt(lunchIn[0]) - parseInt(lunchOut[0]), parseInt(lunchIn[1]) - parseInt(lunchOut[1])];
 
 			finalExitHour = [parseInt(officeIn[0]) + lunchTotal[0] + fixedTime[0], parseInt(officeIn[1]) + lunchTotal[1] + fixedTime[1]];
-			if (finalExitHour[1] > 60) {
-				finalExitHour[0]++
-				finalExitHour[1] -= 60
-			}
-			if (finalExitHour[0] > 12) {
-				finalExitHour[0] -= 12;
-				forAmPm = "PM";
-			} else {
-				forAmPm = "AM";
-			}
-			var final = finalExitHour.toString().replace(',', ':') + forAmPm;
+			// if (finalExitHour[1] > 60) {
+			// 	finalExitHour[0]++
+			// 	finalExitHour[1] -= 60
+			// }
+			// if (finalExitHour[0] > 12) {
+			// 	finalExitHour[0] -= 12;
+			// 	forAmPm = "PM";
+			// } else {
+			// 	forAmPm = "AM";
+			// }
 
-			document.getElementById("alert").innerHTML = "Your Exit Time is: " + final;
+			//var final = finalExitHour.toString().replace(',', ':') + forAmPm;
+
+			// document.getElementById("exittime").innerHTML = final;
+			//document.getElementById("exittime").innerHTML = finalExitHour;
+
+			var countDownStart = [finalExitHour[0] - currentTime[0], finalExitHour[1] - currentTime[1]]
+			var countDownStartZero = countDownStart[0];
+			var countDownStartOne = countDownStart[1];
+			document.getElementById("alertSpan").innerHTML = countDownStart[0] + ":" + countDownStart[1];
+			var countDownSecond = 0;
+			setInterval(function(){
+					if(finalExitHour[0] > currentTime[0]){
+
+						// Count Second
+						if(countDownStart[0] > 0 && countDownSecond == 0){
+							countDownSecond = 59;
+						}else if(countDownSecond == 0 && countDownStart[1] == 0 && countDownStart[0] == 0){
+							countDownSecond = 0;
+						}else{
+							countDownSecond--;
+						}
+
+						// Count Minute
+						if(countDownStart[0] < countDownStartZero && countDownStart[1] == 0){
+							countDownStart[1] = 59;
+						}else if (countDownStart[1] > 0 && countDownSecond > 0 && countDownSecond == 0){
+							countDownStart[1]--;
+						}else{
+							countDownStart[1] = countDownStart[1];
+						}
+
+						// Count Hour
+						if(countDownStart[0] > 0 && countDownStart[1] == 0){
+							countDownStart[0]--
+							countDownStart[1] = 59
+						}else{
+							countDownStart[0] = countDownStart[0];
+						}
+						document.getElementById("exittime").innerHTML = finalExitHour;
+						document.getElementById("alertSpan").innerHTML = countDownStart[0] + ":" + countDownStart[1] + ":" + countDownSecond;
+					}else{
+						document.getElementById("alertSpan").innerHTML = "00:00:00";
+					}
+			}, 1000)
+			
+
+			
 		}
 	</script>
 </body>
