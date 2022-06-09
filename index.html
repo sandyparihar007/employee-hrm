@@ -210,8 +210,6 @@
 
 		.alert {
 			width: 600px;
-			height: 70px;
-			background-color: green;
 			padding: 15px;
 			text-align: center;
 			line-height: 50px;
@@ -222,10 +220,12 @@
 		h1 {
 			font-size: 25px;
 			font-family: cursive;
-			color: #fff;
+			color: #000;
 			animation: blink 0.8s linear infinite;
 		}
-
+		.exittime{
+			color: #000;
+		}
 		@keyframes blink {
 			0% {
 				opacity: 0;
@@ -247,6 +247,8 @@
 		<div class="screen">
 			<div class="screen__content">
 				<h1 id="alert" class="alert">
+					Your Exit Hour is : <span id="exittime" class="exittime"></span><br/>
+					<br/>
 					Time Left : <span id="alertSpan">00:00</span>
 				</h1>
 				<form class="login" method="post">
@@ -324,6 +326,11 @@
 			// 	forAmPm = "AM";
 			// }
 
+			//var final = finalExitHour.toString().replace(',', ':') + forAmPm;
+
+			// document.getElementById("exittime").innerHTML = final;
+			//document.getElementById("exittime").innerHTML = finalExitHour;
+
 			var countDownStart = [finalExitHour[0] - currentTime[0], finalExitHour[1] - currentTime[1]]
 			var countDownStartZero = countDownStart[0];
 			var countDownStartOne = countDownStart[1];
@@ -357,7 +364,7 @@
 						}else{
 							countDownStart[0] = countDownStart[0];
 						}
-
+						document.getElementById("exittime").innerHTML = finalExitHour;
 						document.getElementById("alertSpan").innerHTML = countDownStart[0] + ":" + countDownStart[1] + ":" + countDownSecond;
 					}else{
 						document.getElementById("alertSpan").innerHTML = "00:00:00";
