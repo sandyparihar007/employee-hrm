@@ -246,12 +246,10 @@
 	<div class="container">
 		<div class="screen">
 			<div class="screen__content">
-				<h1 id="alert" class="alert">
-					Time Left : <span id="alertCountdownTime">00:00</span>
-				</h1>
-				<h1 id="alert" class="alert">
-					Your Exit Time : <span id="alertExitTime">00:00</span>
-				</h1>
+				<h1 id="alert" class="alert"></h1>
+				
+
+
 				<form class="login" method="post">
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
@@ -302,9 +300,6 @@
 
 	<script>
 		function timeCalc() {
-			var currentDate = new Date();
-			var currentTime = [parseInt(currentDate.getHours()),parseInt(currentDate.getMinutes())];
-
 			var officeIn, lunchOut, lunchIn, fixedTime, finalExitHour, forAmPm;
 			officeIn = document.getElementById('officeIn').value.split(':');
 
@@ -316,58 +311,19 @@
 			lunchTotal = [parseInt(lunchIn[0]) - parseInt(lunchOut[0]), parseInt(lunchIn[1]) - parseInt(lunchOut[1])];
 
 			finalExitHour = [parseInt(officeIn[0]) + lunchTotal[0] + fixedTime[0], parseInt(officeIn[1]) + lunchTotal[1] + fixedTime[1]];
-			var fixedFinalTime = [finalExitHour[0], finalExitHour[1]];
-			if (fixedFinalTime[1] > 60) {
-				fixedFinalTime[0]++
-				fixedFinalTime[1] -= 60
+			if (finalExitHour[1] > 60) {
+				finalExitHour[0]++
+				finalExitHour[1] -= 60
 			}
-			if (fixedFinalTime[0] > 12) {
-				fixedFinalTime[0] -= 12;
+			if (finalExitHour[0] > 12) {
+				finalExitHour[0] -= 12;
 				forAmPm = "PM";
 			} else {
 				forAmPm = "AM";
 			}
-			document.getElementById("alertExitTime").innerHTML = fixedFinalTime[0] + ":" + fixedFinalTime[1] + forAmPm;
+			var final = finalExitHour.toString().replace(',', ':') + forAmPm;
 
-			var countDownStart = [finalExitHour[0] - currentTime[0], finalExitHour[1] - currentTime[1]]
-			var countDownStartZero = countDownStart[0];
-			var countDownStartOne = countDownStart[1];
-			document.getElementById("alertCountdownTime").innerHTML = countDownStart[0] + ":" + countDownStart[1];
-			var countDownSecond = 0;
-			setInterval(function(){
-					if(finalExitHour[0] > currentTime[0]){
-
-						// Count Second
-						if(countDownStart[0] > 0 && countDownSecond == 0){
-							countDownSecond = 59;
-						}else if(countDownSecond == 0 && countDownStart[1] == 0 && countDownStart[0] == 0){
-							countDownSecond = 0;
-						}else{
-							countDownSecond--;
-						}
-
-						// Count Minute
-						if(countDownStart[0] < countDownStartZero && countDownStart[1] == 0){
-							countDownStart[1] = 59;
-						}else if (countDownStart[1] > 0 && countDownSecond > 0 && countDownSecond == 0){
-							countDownStart[1]--;
-						}else{
-							countDownStart[1] = countDownStart[1];
-						}
-
-						// Count Hour
-						if(countDownStart[0] > 0 && countDownStart[1] == 0){
-							countDownStart[0]--
-							countDownStart[1] = 59
-						}else{
-							countDownStart[0] = countDownStart[0];
-						}
-
-						document.getElementById("alertCountdownTime").innerHTML = countDownStart[0] + ":" + countDownStart[1] + ":" + countDownSecond;
-					}else{
-						document.getElementById("alertCountdownTime").innerHTML = "00:00:00";
-					}
-			}, 1000);
+			document.getElementById("alert").innerHTML = "Your Exit Time is: " + final;
 		}
 	</script>
 </body>
